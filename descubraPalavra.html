@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Descubra a Palavra</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            margin: 10px 5px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        hr {
+            margin: 30px 0;
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #667eea, transparent);
+        }
+
+        #area-jogo {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        #area-jogo p {
+            margin: 15px 0;
+            font-size: 16px;
+        }
+
+        #mostrarDica {
+            color: #764ba2;
+            font-weight: bold;
+            font-size: 18px;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        #palavra-exibida {
+            font-size: 32px;
+            letter-spacing: 8px;
+            font-weight: bold;
+            color: #333;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+            font-family: monospace;
+        }
+
+        #letras-erradas {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+
+        #contarErros {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        #msg-resultado {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            animation: pulse 0.5s ease;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        #erro-msg {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .info-box {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid #e0e0e0;
+            margin: 5px;
+        }
+
+        a:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* Ícones diferentes para cada link */
+        a[href*="dado"]::before {
+            content: "🎲";
+        }
+
+        a[href*="palavra"]::before {
+            content: "🔍";
+        }
+
+        a[href*="index"]::before {
+            content: "🏠";
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Jogo: Descubra a Palavra</h1>
+        <a href="index.html">Outro Jogo</a>
+
+        <!-- Jogador 1 -->
+        <input type="password" id="palavra" placeholder="Digite a palavra secreta">
+        <input type="text" id="dica" placeholder="Digite uma dica">
+        <button onclick="enviar()" id="btn-enviar">Enviar</button>
+        <p id="erro-msg" style="color: red;"></p>
+
+        <hr>
+
+        <!-- Jogador 2 -->
+        <div id="area-jogo">
+            <p>Dica: <span id="mostrarDica"></span></p>
+            <p>Palavra: <span id="palavra-exibida"></span></p>
+            <p>Erros: <span id="contarErros">0</span> / 6</p>
+            <p>Letras erradas: <span id="letras-erradas"></span></p>
+            <br>
+            <!-- MUDANÇA 1: o botão começa com onclick="chutarLetra()" normalmente -->
+            <button id="btn-chutar" onclick="chutarLetra()">Chutar letra</button>
+            <p id="msg-resultado" style="font-weight: bold; font-size: 18px;"></p>
+        </div>
+    </div>
+
+    <script>
+        var palavraExibida = ''
+        var palavra = ''
+        var erros = 0
+        var letrasErradas = ''
+        var letrasUsadas = ''
+        var jogoAcabou = false
+
+        function enviar() {
+            var inputPalavra = document.getElementById('palavra').value.trim().toUpperCase()
+            var dica = document.getElementById('dica').value.trim()
+            var erroMsg = document.getElementById('erro-msg')
+
+            if (inputPalavra.length < 2) {
+                erroMsg.innerHTML = 'A palavra precisa ter pelo menos 2 letras!'
+                return
+            }
+
+            palavra = inputPalavra
+            palavraExibida = ''
+            erros = 0
+            letrasErradas = ''
+            letrasUsadas = ''
+            jogoAcabou = false
+
+            for (var i = 0; i < palavra.length; i++) {
+                if (palavra.charAt(i) == ' ') {
+                    palavraExibida += '-'
+                } else {
+                    palavraExibida += '_'
+                }
+            }
+
+            document.getElementById('mostrarDica').innerHTML = dica
+            document.getElementById('palavra-exibida').innerHTML = palavraExibida
+            document.getElementById('contarErros').innerHTML = '0'
+            document.getElementById('letras-erradas').innerHTML = ''
+            document.getElementById('msg-resultado').innerHTML = ''
+            document.getElementById('area-jogo').style.display = 'block'
+            document.getElementById('btn-chutar').disabled = false
+            document.getElementById('btn-enviar').style.display = 'none'
+            erroMsg.innerHTML = ''
+
+
+            document.getElementById('palavra').style.display = 'none'
+            document.getElementById('dica').style.display = 'none'
+
+            // MUDANÇA 2: ao enviar, garante que o botão volta para chutarLetra()
+            document.getElementById('btn-chutar').innerHTML = 'Chutar letra'
+            document.getElementById('btn-chutar').onclick = chutarLetra
+        }
+
+        function chutarLetra() {
+            if (jogoAcabou) return
+
+            var letra = prompt('Digite uma letra:')
+
+            if (letra == null) return
+
+            letra = letra.trim().toUpperCase()
+
+            if (letra.length != 1) {
+                alert('Digite apenas UMA letra!')
+                return
+            }
+
+            var jaUsada = false
+            for (var i = 0; i < letrasUsadas.length; i++) {
+                if (letrasUsadas.charAt(i) == letra) {
+                    jaUsada = true
+                }
+            }
+
+            if (jaUsada) {
+                alert('Você já tentou a letra ' + letra + '!')
+                return
+            }
+
+            letrasUsadas += letra
+
+            var novaPalavra = ''
+            var acertou = false
+
+            for (var i = 0; i < palavra.length; i++) {
+                if (palavra.charAt(i) == letra) {
+                    novaPalavra += letra
+                    acertou = true
+                } else {
+                    novaPalavra += palavraExibida.charAt(i)
+                }
+            }
+
+            palavraExibida = novaPalavra
+            document.getElementById('palavra-exibida').innerHTML = palavraExibida
+
+            if (!acertou) {
+                erros++
+                letrasErradas += letra + ' '
+                document.getElementById('contarErros').innerHTML = erros
+                document.getElementById('letras-erradas').innerHTML = letrasErradas
+
+                if (erros >= 6) {
+                    jogoAcabou = true
+                    document.getElementById('msg-resultado').innerHTML = 'Você perdeu! A palavra era: ' + palavra
+                    document.getElementById('msg-resultado').style.color = 'red'
+
+                    // MUDANÇA 3: ao perder, o botão também vira "Jogar novamente"
+                    document.getElementById('btn-chutar').innerHTML = 'Jogar novamente'
+                    document.getElementById('btn-chutar').onclick = reiniciarJogo
+                    document.getElementById('btn-chutar').disabled = false
+                    return
+                }
+
+            }
+
+            var temUnderscore = false
+            for (var i = 0; i < palavraExibida.length; i++) {
+                if (palavraExibida.charAt(i) == '_') {
+                    temUnderscore = true
+                }
+            }
+
+            if (!temUnderscore) {
+                jogoAcabou = true
+                document.getElementById('msg-resultado').innerHTML = 'Parabéns! Você acertou a palavra!'
+                document.getElementById('msg-resultado').style.color = 'green'
+
+                // MUDANÇA 3: ao vencer, o botão vira "Jogar novamente"
+                document.getElementById('btn-chutar').innerHTML = 'Jogar novamente'
+                document.getElementById('btn-chutar').onclick = reiniciarJogo
+                document.getElementById('btn-chutar').disabled = false
+            }
+        }
+
+        function reiniciarJogo() {
+            // Esconde a área do jogo
+            document.getElementById('area-jogo').style.display = 'none'
+
+            // Mostra os campos do jogador 1 de novo
+            document.getElementById('palavra').style.display = 'block'
+            document.getElementById('dica').style.display = 'block'
+
+            // Limpa os campos
+            document.getElementById('palavra').value = ''
+            document.getElementById('dica').value = ''
+        }
+
+    </script>
+
+</body>
+
+</html>
