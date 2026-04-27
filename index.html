@@ -34,6 +34,10 @@
             animation: fadeIn 0.5s ease-in;
         }
 
+        .container:last-of-type {
+            margin-top: 10px;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -56,6 +60,25 @@
             background-clip: text;
         }
 
+        #historico {
+            width: 200px;
+            height: 50px;
+            font-size: 40px;
+            border: 3px solid #e0e0e0;
+            border-radius: 20px;
+            margin: 20px auto;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: right;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            padding-right: 10px;
+        }
+
         #resultado {
             width: 200px;
             height: 200px;
@@ -72,7 +95,8 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
-        #resultado:hover {
+        #resultado:hover,
+        #historico:hover {
             transform: scale(1.05);
             border-color: #667eea;
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
@@ -128,10 +152,15 @@
 
 <body>
     <div class="container">
-        <a href="descubraPalavra.html">Descubra a palavra</a>
-        <h1>Jogo: Rolar dados</h1>
-        <input type="text" id="resultado">
-        <button onclick="rolar()">Rolar Dado</button>
+        <div class="container">
+            <a href="descubraPalavra.html">Descubra a palavra</a>
+            <h1>Jogo: Rolar dados</h1>
+            <input type="text" id="resultado">
+            <button onclick="rolar()">Rolar Dado</button>
+        </div>
+        <div class="container">
+            <input type="text" id="historico">
+        </div>
     </div>
 
     <script>
@@ -142,38 +171,76 @@
             const b = Math.floor(Math.random() * 256);
             return `rgb(${r}, ${g}, ${b})`;
         }
+
         function rolar() {
             var resultado = document.getElementById('resultado')
+            var historico = document.getElementById('historico')
             var dadoRolado = Math.floor(Math.random() * 6) + 1
+
             switch (dadoRolado) {
                 case 1:
                     resultado.value = "⚀"
+                    historico.value += "⚀" + ", "
+                    document.getElementById('historico').style.color = corRGBAleatoria();
                     document.getElementById('resultado').style.color = corRGBAleatoria();
-                    break;
+                    historico.scrollLeft = historico.scrollWidth;
+                    break; ''
                 case 2:
                     resultado.value = "⚁"
+                    historico.value += "⚁" + ", "
+                    document.getElementById('historico').style.color = corRGBAleatoria();
                     document.getElementById('resultado').style.color = corRGBAleatoria();
+                    historico.scrollLeft = historico.scrollWidth;
                     break;
                 case 3:
                     resultado.value = "⚂"
+                    historico.value += "⚂" + ", "
+                    document.getElementById('historico').style.color = corRGBAleatoria();
                     document.getElementById('resultado').style.color = corRGBAleatoria();
+                    historico.scrollLeft = historico.scrollWidth;
                     break;
                 case 4:
                     resultado.value = "⚃"
+                    historico.value += "⚃" + ", "
+                    document.getElementById('historico').style.color = corRGBAleatoria();
                     document.getElementById('resultado').style.color = corRGBAleatoria();
+                    historico.scrollLeft = historico.scrollWidth;
                     break;
                 case 5:
                     resultado.value = "⚄"
+                    historico.value += "⚄" + ", "
+                    document.getElementById('historico').style.color = corRGBAleatoria();
                     document.getElementById('resultado').style.color = corRGBAleatoria();
+                    historico.scrollLeft = historico.scrollWidth;
                     break;
                 case 6:
                     resultado.value = "⚅"
+                    historico.value += "⚅" + ", "
+                    document.getElementById('historico').style.color = corRGBAleatoria();
                     document.getElementById('resultado').style.color = corRGBAleatoria();
+                    historico.scrollLeft = historico.scrollWidth;
                     break;
                 default:
                     resultado.value = "Tente Novamente"
             }
             console.log(dadoRolado)
+
+            // Tem como fazer assim, mas nao seria autoral meu kkkkkkkk
+            // const resultado = document.getElementById('resultado');
+            // const historico = document.getElementById('historico');
+            // const dados = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+            // const dadoRolado = Math.floor(Math.random() * 6);
+
+            // resultado.value = dados[dadoRolado];
+            // historico.value += dados[dadoRolado] + ", ";
+
+            // const cor1 = corRGBAleatoria();
+            // const cor2 = corRGBAleatoria();
+            // resultado.style.color = cor1;
+            // historico.style.color = cor2;
+
+            // // Move o scroll do histórico para o final
+            // historico.scrollLeft = historico.scrollWidth;
         }
     </script>
 </body>
