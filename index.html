@@ -123,52 +123,52 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
-
-        /* Ícones diferentes para cada link */
-        a[href*="dado"]::before {
-            content: "🎲";
-        }
-
-        a[href*="palavra"]::before {
-            content: "🔍";
-        }
-
-        a[href*="index"]::before {
-            content: "🏠";
-        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <a href="descubraPalavra.html">Outro Jogo</a>
+        <a href="descubraPalavra.html">Descubra a palavra</a>
         <h1>Jogo: Rolar dados</h1>
         <input type="text" id="resultado">
         <button onclick="rolar()">Rolar Dado</button>
     </div>
 
     <script>
+
+        function corRGBAleatoria() {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            return `rgb(${r}, ${g}, ${b})`;
+        }
         function rolar() {
             var resultado = document.getElementById('resultado')
             var dadoRolado = Math.floor(Math.random() * 6) + 1
             switch (dadoRolado) {
                 case 1:
                     resultado.value = "⚀"
+                    document.getElementById('resultado').style.color = corRGBAleatoria();
                     break;
                 case 2:
                     resultado.value = "⚁"
+                    document.getElementById('resultado').style.color = corRGBAleatoria();
                     break;
                 case 3:
                     resultado.value = "⚂"
+                    document.getElementById('resultado').style.color = corRGBAleatoria();
                     break;
                 case 4:
                     resultado.value = "⚃"
+                    document.getElementById('resultado').style.color = corRGBAleatoria();
                     break;
                 case 5:
                     resultado.value = "⚄"
+                    document.getElementById('resultado').style.color = corRGBAleatoria();
                     break;
                 case 6:
                     resultado.value = "⚅"
+                    document.getElementById('resultado').style.color = corRGBAleatoria();
                     break;
                 default:
                     resultado.value = "Tente Novamente"
