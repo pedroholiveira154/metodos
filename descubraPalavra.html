@@ -197,19 +197,6 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
-
-        /* Ícones diferentes para cada link */
-        a[href*="dado"]::before {
-            content: "🎲";
-        }
-
-        a[href*="palavra"]::before {
-            content: "🔍";
-        }
-
-        a[href*="index"]::before {
-            content: "🏠";
-        }
     </style>
 </head>
 
@@ -234,7 +221,6 @@
             <p>Erros: <span id="contarErros">0</span> / 6</p>
             <p>Letras erradas: <span id="letras-erradas"></span></p>
             <br>
-            <!-- MUDANÇA 1: o botão começa com onclick="chutarLetra()" normalmente -->
             <button id="btn-chutar" onclick="chutarLetra()">Chutar letra</button>
             <p id="msg-resultado" style="font-weight: bold; font-size: 18px;"></p>
         </div>
@@ -287,7 +273,6 @@
             document.getElementById('palavra').style.display = 'none'
             document.getElementById('dica').style.display = 'none'
 
-            // MUDANÇA 2: ao enviar, garante que o botão volta para chutarLetra()
             document.getElementById('btn-chutar').innerHTML = 'Chutar letra'
             document.getElementById('btn-chutar').onclick = chutarLetra
         }
@@ -346,7 +331,6 @@
                     document.getElementById('msg-resultado').innerHTML = 'Você perdeu! A palavra era: ' + palavra
                     document.getElementById('msg-resultado').style.color = 'red'
 
-                    // MUDANÇA 3: ao perder, o botão também vira "Jogar novamente"
                     document.getElementById('btn-chutar').innerHTML = 'Jogar novamente'
                     document.getElementById('btn-chutar').onclick = reiniciarJogo
                     document.getElementById('btn-chutar').disabled = false
@@ -367,7 +351,6 @@
                 document.getElementById('msg-resultado').innerHTML = 'Parabéns! Você acertou a palavra!'
                 document.getElementById('msg-resultado').style.color = 'green'
 
-                // MUDANÇA 3: ao vencer, o botão vira "Jogar novamente"
                 document.getElementById('btn-chutar').innerHTML = 'Jogar novamente'
                 document.getElementById('btn-chutar').onclick = reiniciarJogo
                 document.getElementById('btn-chutar').disabled = false
